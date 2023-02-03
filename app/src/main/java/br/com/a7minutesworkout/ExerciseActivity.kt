@@ -50,6 +50,8 @@ class ExerciseActivity : AppCompatActivity() {
         binding?.tvExerciseName?.visibility = View.INVISIBLE
         binding?.flExerciseView?.visibility = View.INVISIBLE
         binding?.ivImage?.visibility = View.INVISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.VISIBLE
+        binding?.upcomingLabel?.visibility = View.VISIBLE
 
         /**
          * Here firstly we will check if the timer is running the and it is not null then cancel the running timer and start the new one.
@@ -59,6 +61,10 @@ class ExerciseActivity : AppCompatActivity() {
             restTimer!!.cancel()
             restProgress = 0
         }
+
+        // Shows the upcoming exercise text to the Rest View.
+        binding?.tvUpcomingExerciseName?.text = exerciseList!![currentExercisePosition + 1].getName()
+
         // Function used to set the progress details.
         setRestProgressBar()
     }
@@ -73,6 +79,8 @@ class ExerciseActivity : AppCompatActivity() {
         binding?.tvExerciseName?.visibility = View.VISIBLE
         binding?.flExerciseView?.visibility = View.VISIBLE
         binding?.ivImage?.visibility = View.VISIBLE
+        binding?.tvUpcomingExerciseName?.visibility = View.INVISIBLE
+        binding?.upcomingLabel?.visibility = View.INVISIBLE
 
         /**
          * Here firstly we will check if the timer is running and it is not null then cancel the running timer and start the new one.
