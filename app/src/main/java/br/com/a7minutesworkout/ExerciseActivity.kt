@@ -1,5 +1,7 @@
 package br.com.a7minutesworkout
 
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -20,6 +22,8 @@ class ExerciseActivity : AppCompatActivity() {
     private var exerciseTimerDuration: Long = 30
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var currentExercisePosition = -1
+
+    private var player: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,17 @@ class ExerciseActivity : AppCompatActivity() {
      * Function used to set the timer for REST.
      */
     private fun setupRestView() {
+        // Playing a notification sound when the exercise is about to start when you are in the rest state
+        try {
+            val soundURI =
+                Uri.parse("android.resource://br.com.a7minutesworkout/" + R.raw.press_start)
+            player = MediaPlayer.create(applicationContext, soundURI)
+            player?.isLooping = false // Sets the player to be looping or non-looping.
+            player?.start() // Starts Playback.
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         binding?.flRestView?.visibility = View.VISIBLE
         binding?.tvTitle?.visibility = View.VISIBLE
         binding?.tvExerciseName?.visibility = View.INVISIBLE
@@ -187,6 +202,11 @@ class ExerciseActivity : AppCompatActivity() {
         if (exerciseTimer != null) {
             exerciseTimer?.cancel()
             exerciseProgress = 0
+        }
+
+        // When the activity is destroyed if the media player instance is not null then stop it.
+        if(player != null){
+            player!!.stop()
         }
 
         binding = null
