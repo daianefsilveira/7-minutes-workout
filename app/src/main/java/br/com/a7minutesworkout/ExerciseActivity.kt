@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.a7minutesworkout.databinding.ActivityExerciseBinding
 
 class ExerciseActivity : AppCompatActivity() {
@@ -24,6 +25,8 @@ class ExerciseActivity : AppCompatActivity() {
     private var currentExercisePosition = -1
 
     private var player: MediaPlayer? = null
+
+    private var exerciseAdapter: ExerciseStatusAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +85,9 @@ class ExerciseActivity : AppCompatActivity() {
 
         // Function used to set the progress details.
         setRestProgressBar()
+
+        // Setting up the exercise recycler view
+        setupExerciseStatusRecyclerView()
     }
 
     /**
@@ -185,6 +191,23 @@ class ExerciseActivity : AppCompatActivity() {
                 }
             }
         }.start()
+    }
+
+    /**
+     * Function used to set up the recycler view to UI and asining the Layout Manager and Adapter Class is attached to it.
+     */
+    // Binding adapter class to recycler view and setting the recycler view layout manager and passing a list to the adapter.
+    private fun setupExerciseStatusRecyclerView() {
+        // Defining a layout manager for the recycle view
+        // Here we have used a LinearLayout Manager with horizontal scroll.
+        binding?.rvExerciseStatus?.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // As the adapter expects the exercises list and context so initialize it passing it.
+        exerciseAdapter = ExerciseStatusAdapter(exerciseList!!)
+
+        // Adapter class is attached to recycler view
+        binding?.rvExerciseStatus?.adapter = exerciseAdapter
     }
 
     // Destroying the timer when closing the activity or app.
