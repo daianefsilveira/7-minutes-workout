@@ -148,6 +148,10 @@ class ExerciseActivity : AppCompatActivity() {
             override fun onFinish() {
                 currentExercisePosition++
                 // When the 10 seconds will complete this will be executed.
+
+                exerciseList!![currentExercisePosition].setIsSelected(true) // Current Item is selected
+                exerciseAdapter!!.notifyDataSetChanged() // Notified the current item to adapter class to reflect it into UI.
+
                 setupExerciseView()
             }
         }.start()
@@ -178,6 +182,11 @@ class ExerciseActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+
+                exerciseList!![currentExercisePosition].setIsSelected(false) // exercise is completed so selection is set to false
+                exerciseList!![currentExercisePosition].setIsCompleted(true) // updating in the list that this exercise is completed
+                exerciseAdapter!!.notifyDataSetChanged() // Notifying the adapter class.
+
                 // When the 10 seconds will complete this will be executed.
                 // Updating the view after completing the 30 seconds exercise.
                 if (currentExercisePosition < exerciseList?.size!! - 1) {
